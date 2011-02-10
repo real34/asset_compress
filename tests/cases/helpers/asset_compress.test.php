@@ -4,17 +4,19 @@ App::import('Helper', array('AssetCompress.AssetCompress', 'Html', 'Javascript')
 
 
 class AssetCompressHelperTestCase extends CakeTestCase {
+
 /**
  * start a test
  *
  * @return void
  **/
 	function startTest() {
-		$this->_pluginPath = App::pluginPath('AssetCompress');
+		$this->_pluginPath = APP . 'plugins' . DS . 'asset_compress' . DS;
 		$testFile = $this->_pluginPath . 'tests' . DS . 'test_files' . DS . 'config' . DS . 'config.ini';
 
 		$this->Helper = new AssetCompressHelper(array('iniFile' => $testFile));
 		$this->Helper->Html = new HtmlHelper();
+		$this->Helper->Javascript = new JavascriptHelper();
 		Router::reload();
 		Configure::write('debug', 2);
 	}
@@ -38,7 +40,7 @@ class AssetCompressHelperTestCase extends CakeTestCase {
 			array('controller' => 'posts', 'action' => 'index', 'plugin' => null),
 			array('base' => '/some/dir', 'webroot' => '/some/dir/', 'here' => '/some/dir/posts')
 		));
-		$this->Helper->Html->webroot = '/some/dir/';
+		$this->Helper->Javascript->webroot = '/some/dir/';
 
 		$this->Helper->script('one.js');
 		$result = $this->Helper->includeAssets();

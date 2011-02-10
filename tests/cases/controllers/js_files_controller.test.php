@@ -18,7 +18,6 @@ class JsFilesControllerTestCase extends CakeTestCase {
 		$this->JsFiles = new JsFilesControllerMock();
 		$this->JsFiles->plugin = 'AssetCompress';
 		$this->JsFiles->JsFile = new JsFileMock();
-		$this->_pluginPath = App::pluginPath('AssetCompress');
 
 		$this->_cache = Configure::read('Cache');
 		Configure::write('Cache.disable', true);

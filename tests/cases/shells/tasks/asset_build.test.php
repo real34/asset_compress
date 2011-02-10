@@ -14,7 +14,7 @@ if (!class_exists('ShellDispatcher')) {
 }
 
 
-$pluginPath = App::pluginPath('AssetCompress');
+$pluginPath = APP . 'plugins' . DS . 'asset_compress' . DS;
 require_once $pluginPath . 'vendors' . DS . 'shells' . DS . 'tasks' . DS . 'asset_build.php';
 
 Mock::generatePartial(
@@ -34,9 +34,9 @@ class AssetBuildTest extends CakeTestCase {
 		$this->Dispatcher =& new TestAssetBuildTaskMockShellDispatcher();
 		$this->Task =& new MockAssetBuildTask($this->Dispatcher);
 		$this->Task->Dispatch =& $this->Dispatcher;
-		$this->Task->Dispatch->shellPaths = App::path('shells');
+		$this->Task->Dispatch->shellPaths = Configure::corePaths('shell');
 		
-		$this->_pluginPath = App::pluginPath('AssetCompress');
+		$this->_pluginPath = APP . 'plugins' . DS . 'asset_compress' . DS;
 		$this->testFilePath = $this->_pluginPath . 'tests/test_files/views/';
 	}
 

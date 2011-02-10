@@ -17,7 +17,7 @@ class JsFileTestCase extends CakeTestCase {
  * @return void
  **/
 	function startTest() {
-		$this->_pluginPath = App::pluginPath('AssetCompress');
+		$this->_pluginPath = APP . 'plugins' . DS . 'asset_compress' . DS;
 		$testFile = $this->_pluginPath . 'tests' . DS . 'test_files' . DS . 'config' . DS . 'config.ini';
 		$this->JsFile = new JsFile($testFile);
 	}

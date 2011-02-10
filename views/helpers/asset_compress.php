@@ -18,7 +18,7 @@
  */
 class AssetCompressHelper extends AppHelper {
 
-	public $helpers = array('Html');
+	public $helpers = array('Html', 'Javascript');
 
 /**
  * Options for the helper
@@ -92,7 +92,7 @@ class AssetCompressHelper extends AppHelper {
 			$iniFile = CONFIGS . 'asset_compress.ini';
 		}
 		if (!file_exists($iniFile)) {
-			$iniFile = App::pluginPath('AssetCompress') . 'config' . DS . 'config.ini';
+			$iniFile = APP . 'plugins' . DS . 'asset_compress' . DS . 'config' . DS . 'config.ini';
 		}
 		$this->_iniFile = parse_ini_file($iniFile, true);
 	}
@@ -157,7 +157,7 @@ class AssetCompressHelper extends AppHelper {
 		foreach ($files as $file) {
 			$includeFile = JS . $this->options['autoIncludePath'] . DS . $file;
 			if (file_exists($includeFile)) {
-				$this->Html->script($this->options['autoIncludePath'] . '/' . $file, array('inline' => false));
+				$this->Javascript->link($this->options['autoIncludePath'] . '/' . $file, array('inline' => false));
 			}
 		}
 	}
@@ -289,7 +289,7 @@ class AssetCompressHelper extends AppHelper {
 			$url = $base;
 		}
 		if ($method == '_scripts') {
-			return $this->Html->script($baseUrl . $url);
+			return $this->Javascript->link($baseUrl . $url);
 		} else {
 			return $this->Html->css($baseUrl . $url);
 		}

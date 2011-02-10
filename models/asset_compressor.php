@@ -91,7 +91,7 @@ abstract class AssetCompressor {
 			$iniFile = CONFIGS . 'asset_compress.ini';
 		}
 		if (!file_exists($iniFile)) {
-			$iniFile = App::pluginPath('AssetCompress') . 'config' . DS . 'config.ini';
+			$iniFile = APP . 'plugins' . DS . 'asset_compress' . DS . 'config' . DS . 'config.ini';
 		}
 		$this->_readConfig($iniFile);
 	}
@@ -225,7 +225,7 @@ abstract class AssetCompressor {
 		foreach ($this->settings['filters'] as $filter) {
 			$className = $filter . 'Filter';
 
-			list($plugin, $className) = pluginSplit($className, true);
+			list($plugin, $className) = $this->__pluginSplit($className, true);
 			App::import('Lib', $plugin . 'asset_compress/' . $filter);
 			if (!class_exists($className)) {
 				App::import('Lib', 'AssetCompress.filter/' . $filter);
@@ -335,7 +335,7 @@ abstract class AssetCompressor {
 	public function addTheme($theme) {
 		$themePath = 'APP/views/themed/' . $theme . '/webroot';
 
-		$viewPaths = App::path('views');
+		$viewPaths = Configure::corePaths('view');
 		foreach ($viewPaths as $viewPath) {
 			$path = $viewPath . 'themed' . DS . $theme . DS . 'webroot';
 			if (is_dir($path)) {
@@ -410,4 +410,27 @@ abstract class AssetCompressor {
 		return $this->getFileExtension($file) == $this->_extension;
 	}
 
+/**
+ * Method Backported from the CakePHP1.3 basics file ;)
+ *
+ * Splits a dot syntax plugin name into its plugin and classname.
+ * If $name does not have a dot, then index 0 will be null.
+ *
+ * Commonly used like `list($plugin, $name) = pluginSplit($name);`
+ *
+ * @param string $name The name you want to plugin split.
+ * @param boolean $dotAppend Set to true if you want the plugin to have a '.' appended to it.
+ * @param string $plugin Optional default plugin to use if no plugin is found. Defaults to null.
+ * @return array Array with 2 indexes.  0 => plugin name, 1 => classname
+ */
+	private function __pluginSplit($name, $dotAppend = false, $plugin = null) {
+		if (strpos($name, '.') !== false) {
+			$parts = explode('.', $name, 2);
+			if ($dotAppend) {
+				$parts[0] .= '.';
+			}
+			return $parts;
+		}
+		return array($plugin, $name);
+	}
 }

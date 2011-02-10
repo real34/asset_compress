@@ -8,7 +8,7 @@ class CssFileTestCase extends CakeTestCase {
  * @return void
  **/
 	function startTest() {
-		$this->_pluginPath = App::pluginPath('AssetCompress');
+		$this->_pluginPath = APP . 'plugins' . DS . 'asset_compress' . DS;
 		$testFile = $this->_pluginPath . 'tests/test_files/config/config.ini';
 		$this->CssFile = new CssFile($testFile);
 	}
@@ -133,8 +133,8 @@ TEXT;
  */
 	function testSettingThemeWithAlternatePaths() {
 		$alternatePath = TEST_CAKE_CORE_INCLUDE_PATH . 'tests' . DS . 'test_app' . DS . 'views'. DS;
-		App::build(array(
-			'views' => array($alternatePath)
+		Configure::buildPaths(array(
+			'view' => array($alternatePath)
 		));
 		$this->CssFile->settings['searchPaths'] = array(
 			'WEBROOT/something/',
@@ -150,7 +150,7 @@ TEXT;
 		);
 		$this->assertEqual($this->CssFile->settings['searchPaths'], $expected);
 		
-		App::build();
+		Configure::buildPaths(array());
 	}
 
 /**
